@@ -1,0 +1,49 @@
+{
+  "name": "@toxicoder/nestjs-pino",
+  "version": "0.0.1",
+  "description": "Pino logger for NestJS",
+  "author": "toxicoder",
+  "main": "dist/index.js",
+  "license": "ISC",
+  "keywords": [
+    "pino",
+    "logger",
+    "nestjs"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "pino": "^9.7.0",
+    "pino-caller": "^4.0.0",
+    "pino-pretty": "^13.0.0"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin-ts": "^4.4.1",
+    "@types/node": "^24.0.7",
+    "@typescript-eslint/parser": "^8.35.0",
+    "dprint": "^0.50.0",
+    "eslint": "^9.30.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.1",
+    "globals": "^16.2.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.0"
+  },
+  "peerDependencies": {
+    "@nestjs/common": ">= 10.0.0"
+  },
+  "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mekh/nestjs-pino.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mekh/nestjs-pino/issues"
+  },
+  "homepage": "https://github.com/mekh/nestjs-pino#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}
