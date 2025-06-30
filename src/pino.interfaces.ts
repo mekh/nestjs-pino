@@ -11,4 +11,5 @@ export interface PinoAsyncParams
   extends Pick<ModuleMetadata, 'imports' | 'providers'> {
   useFactory: (...args: any[]) => PinoOptions | Promise<PinoOptions>;
   inject?: any[];
+  global?: boolean;
 }

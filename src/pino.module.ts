@@ -40,6 +40,7 @@ export class PinoModule {
 
     return {
       module: PinoModule,
+      global: params.global,
       imports: params.imports,
       providers: [
         ...params.providers ?? [],
