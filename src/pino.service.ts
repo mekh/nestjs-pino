@@ -3,13 +3,13 @@ import { Logger, pino } from 'pino';
 import { pinoCaller } from 'pino-caller';
 
 import { PINO_CONFIG_TOKEN } from './pino.constants';
-import { PinoOptions } from './pino.interfaces';
+import { PinoLevel, PinoOptions } from './pino.interfaces';
 
 type LogFn = (...args: any[]) => void;
 
 @Injectable()
 export class PinoService implements LoggerService {
-  private readonly logger: Logger;
+  public readonly pino: Logger;
 
   constructor(
     @Inject(PINO_CONFIG_TOKEN) config: PinoOptions,
@@ -23,40 +23,48 @@ export class PinoService implements LoggerService {
       ...stackAdjustment && { stackAdjustment },
     };
 
-    this.logger = callsites
+    this.pino = callsites
       ? pinoCaller(logger, callerOptions)
       : logger;
   }
 
+  public get level(): PinoLevel {
+    return this.pino.level;
+  }
+
+  public set level(level: PinoLevel) {
+    this.pino.level = level;
+  }
+
   public get fatal(): LogFn {
-    return this.logger.fatal.bind(this.logger);
+    return this.pino.fatal.bind(this.pino);
   }
 
   public get error(): LogFn {
-    return this.logger.error.bind(this.logger);
+    return this.pino.error.bind(this.pino);
   }
 
   public get warn(): LogFn {
-    return this.logger.warn.bind(this.logger);
+    return this.pino.warn.bind(this.pino);
   }
 
   public get log(): LogFn {
-    return this.logger.info.bind(this.logger);
+    return this.pino.info.bind(this.pino);
   }
 
   public get info(): LogFn {
-    return this.logger.info.bind(this.logger);
+    return this.pino.info.bind(this.pino);
   }
 
   public get debug(): LogFn {
-    return this.logger.debug.bind(this.logger);
+    return this.pino.debug.bind(this.pino);
   }
 
   public get verbose(): LogFn {
-    return this.logger.trace.bind(this.logger);
+    return this.pino.trace.bind(this.pino);
   }
 
   public get trace(): LogFn {
-    return this.logger.trace.bind(this.logger);
+    return this.pino.trace.bind(this.pino);
   }
 }

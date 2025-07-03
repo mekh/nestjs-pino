@@ -1,4 +1,4 @@
-# @toxicoder/nestjs-pino
+# NestJS Pino module
 
 A NestJS module for integrating the Pino logger into your NestJS applications.
 
@@ -15,6 +15,7 @@ A NestJS module for integrating the Pino logger into your NestJS applications.
   - [JSON Format](#json-format)
   - [Plain Text Format](#plain-text-format)
   - [With Call Sites](#with-call-sites)
+- [Advanced Usage with Direct Pino Access](#advanced-usage-with-direct-pino-access)
 - [Integration with NestJS](#integration-with-nestjs)
 - [License](#license)
 
@@ -158,6 +159,45 @@ Or in pretty format:
 
 ```
 [12:34:56.789] INFO (src/main.ts:15): Application started
+```
+
+## Advanced Usage with Direct Pino Access
+
+The `pino` instance in `PinoService` is publicly accessible, allowing you to use all
+native Pino features directly:
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { PinoService } from '@toxicoder/nestjs-pino';
+
+@Injectable()
+export class MonitoringService {
+  private logger;
+
+  constructor(private readonly pinoService: PinoService) {
+    this.logger = this.pinoService.pino.child(
+      {
+        context: 'MonitoringService',
+      },
+      {
+      customLevels: {
+        critical: 60,
+        security: 55,
+        business: 35,
+      },
+    });
+  }
+
+  monitorSystem() {
+    // Use standard levels
+    this.logger.info('System check started');
+
+    // Use custom levels
+    this.logger.business('Business event occurred');
+    this.logger.security('Security event detected');
+    this.logger.critical('Critical system failure');
+  }
+}
 ```
 
 ## Integration with NestJS

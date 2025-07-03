@@ -1,5 +1,7 @@
 import { ModuleMetadata } from '@nestjs/common';
-import { LoggerOptions } from 'pino';
+import { LoggerOptions, LevelWithSilentOrString as PinoLevel } from 'pino';
+
+export { PinoLevel };
 
 export interface PinoOptions extends LoggerOptions {
   callsites: boolean;
