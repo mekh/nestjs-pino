@@ -1,11 +1,11 @@
 import path from 'node:path';
-import { LoggerOptions, pino } from 'pino';
+import { pino } from 'pino';
 import { PrettyOptions } from 'pino-pretty';
 
-import { PinoOptions as Config } from './pino.interfaces';
+import { PinoLevel, PinoOptions } from './pino.interfaces';
 
 export class PinoConfig {
-  public static create(): Config {
+  public static create(): PinoOptions {
     return new PinoConfig().config;
   }
 
@@ -15,9 +15,10 @@ export class PinoConfig {
     pretty: this.asBoolean('LOG_PRETTY'),
     color: this.asBoolean('LOG_COLOR'),
     callSites: this.asBoolean('LOG_CALLSITES') ?? false,
+    dbLogging: this.asString('LOG_DB'),
   };
 
-  public get config(): Config {
+  public get config(): PinoOptions {
     return {
       level: this.level,
       formatters: this.formatters,
@@ -25,6 +26,7 @@ export class PinoConfig {
       timestamp: this.formatTimestamp.bind(this),
       callsites: this.envConfig.callSites,
       relativeTo: path.resolve(process.cwd()),
+      dbLogging: this.dbLogging,
     };
   }
 
@@ -40,13 +42,24 @@ export class PinoConfig {
     return this.envConfig.pretty;
   }
 
-  private get formatters(): LoggerOptions['formatters'] {
+  private get dbLogging(): PinoLevel | boolean {
+    const { dbLogging } = this.envConfig;
+    if (!dbLogging) {
+      return false;
+    }
+
+    return ['true', 'false'].includes(dbLogging)
+      ? dbLogging === 'true'
+      : dbLogging as PinoLevel;
+  }
+
+  private get formatters(): PinoOptions['formatters'] {
     return {
       level: this.formatLevel.bind(this),
     };
   }
 
-  private get transport(): LoggerOptions['transport'] {
+  private get transport(): PinoOptions['transport'] {
     if (this.envConfig.json) {
       return undefined;
     }

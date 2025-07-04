@@ -1,6 +1,6 @@
 {
   "name": "@toxicoder/nestjs-pino",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pino logger for NestJS",
   "author": "toxicoder",
   "main": "dist/index.js",
