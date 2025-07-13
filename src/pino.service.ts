@@ -35,7 +35,7 @@ export class PinoService implements LoggerService {
 
     if (dbLogging) {
       this.pinoTypeorm.level = dbLogging === true
-        ? 'info'
+        ? this.pino.level
         : dbLogging;
     }
   }
