@@ -29,15 +29,14 @@ export class PinoService implements LoggerService {
       ? pinoCaller(logger, callerOptions)
       : logger;
 
-    this.pinoTypeorm = this.pino.child({ context: 'typeorm' }, {
-      level: 'silent',
-    });
+    this.pinoTypeorm = this.createOrmLogger(dbLogging);
+  }
 
-    if (dbLogging) {
-      this.pinoTypeorm.level = dbLogging === true
-        ? this.pino.level
-        : dbLogging;
-    }
+  private createOrmLogger(dbLogging: PinoOptions['dbLogging']): Logger {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    const level = dbLogging === true ? this.pino.level : dbLogging || 'silent';
+
+    return this.pino.child({ context: 'typeorm' }, { level });
   }
 
   public get level(): PinoLevel {
